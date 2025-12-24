@@ -1,8 +1,15 @@
 services:
-  web:
-    build: .
+  db:
+    image: mysql:8.0
+    container_name: my_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "my_library"
     ports:
-      - "8080:80"
+      - "3307:3306"
     volumes:
-      - ./src:/var/www/html
-    container_name: brief-8-web
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
