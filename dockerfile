@@ -1,15 +1,19 @@
-FROM php:8.2-apache
+FROM php:8.1-apache
 
-# Copier le contenu de src dans /var/www/html
-COPY src/ /var/www/html/
+RUN apt-get update && apt-get install -y \
+    default-mysql-client \
+    libonig-dev \
+    libzip-dev \
+    unzip \
+ && docker-php-ext-install pdo_mysql mysqli
 
-# Activer rewrite si besoin
 RUN a2enmod rewrite
 
-# Définir le dossier de travail sur public
+# Copier tout le projet
+COPY src/ /var/www/html/
+
+# Apache pointe sur public
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
+
 WORKDIR /var/www/html/public
-
-# Mettre public comme racine web Apache
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-
 EXPOSE 80
