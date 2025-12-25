@@ -11,5 +11,18 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  web:
+    build: .
+    container_name: brief-8-web
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+      - uploads:/var/www/html/public/uploads
+    depends_on:
+      - db
+
 volumes:
   db_data:
+  uploads:

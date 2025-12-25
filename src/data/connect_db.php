@@ -3,7 +3,7 @@ $servername = "db";
 $port = 3306;
 $dbname = "my_library";
 $username = "root";
-$password = "";
+$password = "123456";
 
 try {
     $conn = new PDO(
@@ -12,7 +12,6 @@ try {
         $password
     );
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connexion réussie !";
 } catch (PDOException $e) {
     echo "Erreur de connexion : " . $e->getMessage();
 }

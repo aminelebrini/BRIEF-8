@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . "/../data/connect_db.php";
+
+session_start();
 include __DIR__ . "/../public/router.php";
 
 $Routes = ['/', '/home', '/service', '/contact','/formulaire', '/pageAdmin', '/pageUser'];
