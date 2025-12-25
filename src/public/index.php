@@ -3,7 +3,7 @@
 session_start();
 include __DIR__ . "/../public/router.php";
 
-$Routes = ['/', '/home', '/service', '/contact','/formulaire', '/pageAdmin', '/pageUser'];
+$Routes = ['/', '/home', '/service', '/contact','/formulaire', '/profile'];
 
 $Route = new Router($Routes);
 $Route->route();

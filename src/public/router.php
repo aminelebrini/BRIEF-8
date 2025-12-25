@@ -20,6 +20,7 @@ class Router {
         }
 
         require_once $view;
+        
     }
 }
 ?>
