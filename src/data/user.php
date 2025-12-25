@@ -45,16 +45,10 @@
                    $_SESSION['user_id'] = $user['id'];
                    $_SESSION['user_role'] = $user['role'];
 
-                   if($_SESSION['user_role'] === 'admin')
+                   if($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'reader')
                    {
                     $_SESSION['user'] = $user;
-                    header('Location: /pageAdmin');
-                    exit;
-                   }
-                   if($_SESSION['user_role'] === 'reader')
-                   {
-                    $_SESSION['user'] = $user;
-                    header('Location: /pageUser');
+                    header("Location: /home");
                     exit;
                    }
             }
