@@ -1,5 +1,8 @@
 <?php
-include_once __DIR__ . "/../data/user.php";
+    include __DIR__ . "/../controllers/signupcontroller.php";
+    include __DIR__ . "/../controllers/logincontrollers.php";
+    include_once __DIR__ . "/../controllers/logout.php";
+
 $User = $_SESSION['user'] ?? null;
 ?>
 <!DOCTYPE html>
@@ -24,7 +27,7 @@ $User = $_SESSION['user'] ?? null;
                 </nav>
                 <div class="flex gap-3 items-center">
                     <span class="text-sm text-white"><?= $User['firstname']; ?></span>
-                    <a href="?page=logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</a>
+                    <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
                 </div>
             </div>
         </header>

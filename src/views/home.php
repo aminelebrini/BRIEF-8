@@ -1,7 +1,7 @@
 <?php
-  include_once __DIR__ . "/../data/user.php";
-  $User = $_SESSION['user'];
+// Redirection si l'utilisateur n'est pas connecté
 
+$User = $_SESSION['user'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,102 +14,78 @@
 
 <body class="bg-[#1B1B1E] text-[#F2F5F3]">
 
-<?php if(isset($_SESSION['user'])): ?>
-    <?php if($_SESSION['user']['role'] === 'reader'): ?>
-        <!-- Header pour Reader -->
-        <header class="w-full bg-[#141618] border-b border-[#17181B]">
-            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
-
-                <nav class="flex gap-4 text-sm">
-                    <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
-                    <a href="/service" class="hover:text-[#6139B4]">Services</a>
-                    <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
-                </nav>
-
-                <div class="flex gap-3 items-center">
-                    <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
-                    <a href="?page=logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</a>
-                </div>
-            </div>
-        </header>
-
-    <?php elseif($_SESSION['user']['role'] === 'admin'): ?>
-        <header class="w-full bg-[#141618] border-b border-[#17181B]">
-            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
-
-                <nav class="flex gap-4 text-sm">
-                    <a href="?page=dashboard" class="hover:text-[#6139B4]">Dashboard</a>
-                    <a href="?page=service" class="hover:text-[#6139B4]">Admin Panel</a>
-                    <a href="?page=users" class="hover:text-[#6139B4]">Gestion Users</a>
-                </nav>
-
-                <div class="flex gap-3 items-center">
-                    <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
-                    <a href="?page=logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</a>
-                </div>
-            </div>
-        </header>
-    <?php endif; ?>
-<?php else: ?>
+<?php if ($User['role'] === 'reader'): ?>
+    <!-- Header pour Reader -->
     <header class="w-full bg-[#141618] border-b border-[#17181B]">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
             <nav class="flex gap-4 text-sm">
-                <a href="?page=login" class="hover:text-[#6139B4]">Connexion</a>
-                <a href="?page=signup" class="hover:text-[#6139B4]">Inscription</a>
+                <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
+                <a href="/service" class="hover:text-[#6139B4]">Services</a>
+                <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
             </nav>
+            <div class="flex gap-3 items-center">
+                <span class="text-sm text-white"><?= htmlspecialchars($User['firstname']); ?></span>
+                <form method="POST" action="/logout.php">
+                  <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+<?php elseif ($User['role'] === 'admin'): ?>
+    <header class="w-full bg-[#141618] border-b border-[#17181B]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
+            <nav class="flex gap-4 text-sm">
+                <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
+                <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
+                <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
+            </nav>
+            <div class="flex gap-3 items-center">
+                <span class="text-sm text-white"><?= htmlspecialchars($User['firstname']); ?></span>
+                <form method="POST">
+                  <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                </form>
+            </div>
         </div>
     </header>
 <?php endif; ?>
-  <section class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
+
+<!-- Section principale -->
+<section class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
     <div>
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
         Bienvenue dans votre bibliothèque numérique
       </h2>
-
       <p class="text-[#F2F5F3]/70 mb-6">
         Découvrez, empruntez et gérez vos livres facilement.
         Une plateforme pensée pour les lecteurs et le personnel.
       </p>
-
       <div class="flex gap-4">
-        <a href="login.php"
-           class="px-6 py-3 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">
+        <a href="/login" class="px-6 py-3 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">
           Commencer
         </a>
-
-        <a href="#features"
-           class="px-6 py-3 rounded-lg border border-[#17181B] hover:bg-[#17181B]">
+        <a href="#features" class="px-6 py-3 rounded-lg border border-[#17181B] hover:bg-[#17181B]">
           En savoir plus
         </a>
       </div>
     </div>
-
     <div class="bg-[#141618] border border-[#17181B] rounded-2xl p-6">
       <p class="text-sm opacity-80 mb-4">Pourquoi MyLibrary ?</p>
-
       <ul class="space-y-3 text-sm">
-        <li class="flex justify-between">
-          <span>✔ Gestion simple des livres</span>
-        </li>
-        <li class="flex justify-between">
-          <span>✔ Accès rapide aux ressources</span>
-        </li>
-        <li class="flex justify-between">
-          <span>✔ Espace lecteur et staff séparé</span>
-        </li>
-        <li class="flex justify-between">
-          <span>✔ Interface moderne et claire</span>
-        </li>
+        <li class="flex justify-between"><span>✔ Gestion simple des livres</span></li>
+        <li class="flex justify-between"><span>✔ Accès rapide aux ressources</span></li>
+        <li class="flex justify-between"><span>✔ Espace lecteur et staff séparé</span></li>
+        <li class="flex justify-between"><span>✔ Interface moderne et claire</span></li>
       </ul>
     </div>
-  </section>
-  <!-- FOOTER -->
-  <footer class="border-t border-[#17181B] bg-[#141618] py-6 text-center text-sm">
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-[#17181B] bg-[#141618] py-6 text-center text-sm">
     © 2025 MyLibrary — Tous droits réservés
-  </footer>
+</footer>
 
 </body>
 </html>
