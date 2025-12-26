@@ -15,8 +15,15 @@
             $statement = $this->conn->prepare($query);
             $statement->execute([$title, $author, $year, $status = "available"]);
         }
+
+        public function removebook(string $title, string $author, string $year, string $status)
+        {
+            $query = "SELECT * FROM WHERE title = ?";
+            $statement = $this->conn->prepare($query);
+            $statement->execute([$title]);
+        }
     }
 
-    
+
 
 ?>

@@ -36,12 +36,84 @@ $User = $_SESSION['user'] ?? null;
             </div>
         </header>
     <? else:?>
-        jyutiut
     <?php endif; ?>
-    <div class="flex flex-row w-full">
-        <form method="POST">
-            <button type="submit" name="addbook">ADD BOOK</button>
-        </form>
-    </div>  
+    <div class="flex flex-row w-full items-center justify-evenly">
+        <div class="flex justify-center gap-4 mt-6">
+            <button type="button" name="addbook" id="addbtn" class="px-6 py-3 rounded-xl bg-[#6139B4] text-white font-semibold hover:bg-[#4e2f95] transition shadow-md">ADD BOOK</button>
+            <button type="button" name="removebook" id="rmbtn" class="px-6 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition shadow-md">REMOVE BOOK</button>
+        </div>
+    </div>
+    <div class="adddiv hidden max-w-md mx-auto mt-10 bg-[#141618] border border-[#1f2124] p-6 rounded-2xl shadow-lg">
+    <h2 class="text-xl font-semibold mb-4">Ajouter un livre</h2>
+
+    <form method="POST" class="space-y-4">
+        <input type="text" name="title" placeholder="Title" class="w-full p-3 rounded-xl bg-[#1B1B1E] border border-[#2a2c31] focus:outline-none focus:border-[#6139B4]"required>
+    <input 
+      type="text" 
+      name="author" 
+      placeholder="Author"
+      class="w-full p-3 rounded-xl bg-[#1B1B1E] border border-[#2a2c31] focus:outline-none focus:border-[#6139B4]"
+      required>
+
+    <input 
+      type="text" 
+      name="publication_year" 
+      placeholder="Year"
+      class="w-full p-3 rounded-xl bg-[#1B1B1E] border border-[#2a2c31] focus:outline-none focus:border-[#6139B4]"
+      required>
+
+    <button 
+      type="submit" 
+      name="addbook"
+      class="w-full p-3 rounded-xl bg-[#6139B4] hover:bg-[#4e2f95] transition">
+      Save
+    </button>
+  </form>
+</div>
+
+<div class="removediv hidden max-w-md mx-auto mt-10 bg-[#141618] border border-[#1f2124] p-6 rounded-2xl shadow-lg">
+  <h2 class="text-xl font-semibold mb-4">Supprimer un livre</h2>
+
+  <form method="POST" class="space-y-4">
+
+    <input 
+      type="text" 
+      name="book_id" 
+      placeholder="Book TITLE"
+      class="w-full p-3 rounded-xl bg-[#1B1B1E] border border-[#2a2c31] focus:outline-none focus:border-[#6139B4]"
+      required>
+
+    <button 
+      type="submit" 
+      name="removebook"
+      class="w-full p-3 rounded-xl bg-red-600 hover:bg-red-700 transition">
+      Delete
+    </button>
+
+  </form>
+</div>
+<script>
+    const AddDiv = document.querySelector('.adddiv');
+const RemoveDive = document.querySelector('.removediv');
+const addBtn = document.getElementById('addbtn');
+const removeBtn = document.getElementById('rmbtn');
+
+
+  if(addBtn)
+  {
+    addBtn.addEventListener('click', ()=>{
+      AddDiv.classList.remove('hidden');
+      RemoveDive.classList.add('hidden');
+    });
+  }
+
+  if(removeBtn)
+  {
+    removeBtn.addEventListener('click', ()=>{
+      AddDiv.classList.add('hidden');
+      RemoveDive.classList.remove('hidden');
+    });
+  }
+</script>
 </body>
 </html>
