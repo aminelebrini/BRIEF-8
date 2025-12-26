@@ -1,0 +1,41 @@
+<?php
+include_once __DIR__ . "/../controllers/signupcontroller.php";
+include_once __DIR__ . "/../controllers/logincontrollers.php";
+include_once __DIR__ . "/../controllers/logout.php";
+
+$User = $_SESSION['user'] ?? null;
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Dashboard</title>
+</head>
+<body  class="bg-[#1B1B1E] text-[#F2F5F3]">
+    <?php if($User && $User['role'] === 'admin'): ?>
+        <header class="w-full bg-[#141618] border-b border-[#17181B]">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
+
+                <nav class="flex gap-4 text-sm">
+                    <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
+                    <a href="/service" class="hover:text-[#6139B4]">Services</a>
+                    <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
+                    <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
+                    <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
+                    <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
+                </nav>
+
+                <div class="flex gap-3 items-center">
+                    <span class="text-sm text-white"><?= htmlspecialchars($User['firstname']); ?></span>
+                    <form method="POST">
+                        <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </header>        
+    <?php endif; ?>
+</body>
+</html>

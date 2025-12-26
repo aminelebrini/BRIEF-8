@@ -1,6 +1,8 @@
 <?php
- include __DIR__ . "/../controllers/signupcontroller.php";
- include __DIR__ . "/../controllers/logincontrollers.php";
+    include __DIR__ . "/../controllers/signupcontroller.php";
+    include __DIR__ . "/../controllers/logincontrollers.php";
+    include_once __DIR__ . "/../controllers/logout.php";
+
 ?>
 
 <!DOCTYPE html>
