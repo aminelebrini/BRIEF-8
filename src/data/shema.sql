@@ -7,3 +7,13 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('reader', 'admin') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(150) NOT NULL,
+    publication_year INT NOT NULL,
+    status ENUM('available','borrowed') NOT NULL DEFAULT 'available',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
