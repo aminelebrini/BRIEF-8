@@ -1,6 +1,8 @@
 <?php
       include_once __DIR__ . "/../controllers/logincontrollers.php";
     include_once __DIR__ . "/../controllers/signupcontroller.php";
+       include __DIR__ . "/../controllers/logout.php";
+
     
     if(!isset($_SESSION['user']))
     {
@@ -18,7 +20,7 @@
     <title>Document</title>
 </head>
 <body class="bg-[#1B1B1E] text-[#F2F5F3]">
-    <?php if(isset($_SESSION['user'])): ?>
+<?php if(isset($_SESSION['user'])): ?>
     <?php if($_SESSION['user']['role'] === 'reader'): ?>
         <header class="w-full bg-[#141618] border-b border-[#17181B]">
             <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -33,7 +35,9 @@
 
                 <div class="flex gap-3 items-center">
                     <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
-                    <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                    <form method="POST">
+                        <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                    </form>
                 </div>
             </div>
         </header>
@@ -54,7 +58,9 @@
 
                 <div class="flex gap-3 items-center">
                     <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
-                    <a href="?page=logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</a>
+                    <form method="POST">
+                        <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                    </form>
                 </div>
             </div>
         </header>        
@@ -64,8 +70,7 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
             <nav class="flex gap-4 text-sm">
-                <a href="?page=login" class="hover:text-[#6139B4]">Connexion</a>
-                <a href="?page=signup" class="hover:text-[#6139B4]">Inscription</a>
+                <a href="/formulaire" class="hover:text-[#6139B4]">Connexion</a>
             </nav>
         </div>
     </header>

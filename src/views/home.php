@@ -1,7 +1,7 @@
 <?php
-// Redirection si l'utilisateur n'est pas connecté
-
-$User = $_SESSION['user'] ?? null;
+   include __DIR__ . "/../controllers/Auth.php";
+   
+$_SESSION['user'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,45 +14,62 @@ $User = $_SESSION['user'] ?? null;
 
 <body class="bg-[#1B1B1E] text-[#F2F5F3]">
 
-<?php if ($User['role'] === 'reader'): ?>
-    <!-- Header pour Reader -->
-    <header class="w-full bg-[#141618] border-b border-[#17181B]">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
-            <nav class="flex gap-4 text-sm">
-                <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
-                <a href="/service" class="hover:text-[#6139B4]">Services</a>
-                <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
-            </nav>
-            <div class="flex gap-3 items-center">
-                <span class="text-sm text-white"><?= htmlspecialchars($User['firstname']); ?></span>
-                <form method="POST" action="/logout.php">
-                  <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
-                </form>
-            </div>
-        </div>
-    </header>
+   <?php if(isset($_SESSION['user'])): ?>
+    <?php if($_SESSION['user']['role'] === 'reader'): ?>
+        <header class="w-full bg-[#141618] border-b border-[#17181B]">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
 
-<?php elseif ($User['role'] === 'admin'): ?>
+                <nav class="flex gap-4 text-sm">
+                    <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
+                    <a href="/service" class="hover:text-[#6139B4]">Services</a>
+                    <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
+                    <a href="/book" class="hover:text-[#6139B4]">BOOKS</a>
+                </nav>
+
+                <div class="flex gap-3 items-center">
+                    <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
+                    <form method="POST">
+                        <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+    <?php elseif($_SESSION['user']['role'] === 'admin'): ?>
+        <header class="w-full bg-[#141618] border-b border-[#17181B]">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
+
+                <nav class="flex gap-4 text-sm">
+                    <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
+                    <a href="/service" class="hover:text-[#6139B4]">Services</a>
+                    <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
+                    <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
+                    <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
+                    <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
+                </nav>
+
+                <div class="flex gap-3 items-center">
+                    <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
+                    <form method="POST">
+                        <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </header>        
+    <?php endif; ?>
+<?php else: ?>
     <header class="w-full bg-[#141618] border-b border-[#17181B]">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
             <nav class="flex gap-4 text-sm">
-                <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
-                <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
-                <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
+                <a href="/formulaire" class="hover:text-[#6139B4]">Connexion</a>
             </nav>
-            <div class="flex gap-3 items-center">
-                <span class="text-sm text-white"><?= htmlspecialchars($User['firstname']); ?></span>
-                <form method="POST">
-                  <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
-                </form>
-            </div>
         </div>
     </header>
 <?php endif; ?>
 
-<!-- Section principale -->
 <section class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
     <div>
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
@@ -82,7 +99,6 @@ $User = $_SESSION['user'] ?? null;
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="border-t border-[#17181B] bg-[#141618] py-6 text-center text-sm">
     © 2025 MyLibrary — Tous droits réservés
 </footer>
