@@ -1,7 +1,6 @@
 <?php
-include_once __DIR__ . "/../controllers/signupcontroller.php";
-include_once __DIR__ . "/../controllers/logincontrollers.php";
-include_once __DIR__ . "/../controllers/logout.php";
+include_once __DIR__ . "/../controllers/Auth.php";
+include_once __DIR__ . "/../controllers/AdminMeth.php";
 
 $User = $_SESSION['user'] ?? null;
 ?>
@@ -35,7 +34,14 @@ $User = $_SESSION['user'] ?? null;
                     </form>
                 </div>
             </div>
-        </header>        
+        </header>
+    <? else:?>
+        jyutiut
     <?php endif; ?>
+    <div class="flex flex-row w-full">
+        <form method="POST">
+            <button type="submit" name="addbook">ADD BOOK</button>
+        </form>
+    </div>  
 </body>
 </html>

@@ -1,7 +1,6 @@
 <?php
-    include __DIR__ . "/../controllers/signupcontroller.php";
-    include __DIR__ . "/../controllers/logincontrollers.php";
-    include_once __DIR__ . "/../controllers/logout.php";
+    include_once __DIR__ . "/../controllers/Auth.php";
+    include_once __DIR__ . "/../controllers/AdminMeth.php";
 
 ?>
 
@@ -20,7 +19,7 @@
   <div class="flex flex-col items-center justify-between w-full">
 
     <div class="logindis md:w-[30%] bg-[#141618] rounded-2xl p-6 shadow-lg border border-[#17181B]">
-      <h1 class="text-2xl font-semibold mb-6 text-[#F2F5F3]">Login — Staff</h1>
+      <h1 class="text-2xl font-semibold mb-6 text-[#F2F5F3]">Login</h1>
 
       <form method="POST">
 
@@ -36,9 +35,13 @@
 
         <input type="hidden" name="role" value="staff">
 
-        <button type="submit" name="signin" class="w-full mt-2 bg-[#6139B4] text-white py-2 rounded-lg">
-          Login
-        </button>
+        
+            <form method="POST">
+              <button type="submit" name="signin" class="w-full mt-2 bg-[#6139B4] text-white py-2 rounded-lg">
+                Login
+              </button>
+            </form>
+        
 
         <div class="mt-4 flex flex-col gap-1 text-sm">
           <a href="reader_login.php">Login as Reader</a>

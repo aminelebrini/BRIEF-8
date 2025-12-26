@@ -1,6 +1,6 @@
 <?php
-   include __DIR__ . "/../controllers/Auth.php";
-   
+  include_once __DIR__ . "/../controllers/Auth.php";
+
 $_SESSION['user'] ?? null;
 ?>
 <!DOCTYPE html>
