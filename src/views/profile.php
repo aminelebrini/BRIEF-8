@@ -1,20 +1,26 @@
 <?php
-  include_once __DIR__ . "/../controllers/Auth.php";
+      include_once __DIR__ . "/../controllers/logincontrollers.php";
+    include_once __DIR__ . "/../controllers/signupcontroller.php";
+       include __DIR__ . "/../controllers/logout.php";
 
-$_SESSION['user'] ?? null;
+    
+    if(!isset($_SESSION['user']))
+    {
+        header("Location : /home");
+    }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyLibrary — Home</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
 </head>
-
 <body class="bg-[#1B1B1E] text-[#F2F5F3]">
-
-   <?php if(isset($_SESSION['user'])): ?>
+<?php if(isset($_SESSION['user'])): ?>
     <?php if($_SESSION['user']['role'] === 'reader'): ?>
         <header class="w-full bg-[#141618] border-b border-[#17181B]">
             <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -24,7 +30,7 @@ $_SESSION['user'] ?? null;
                     <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
-                    <a href="/books" class="hover:text-[#6139B4]">BOOKS</a>
+                    <a href="/book" class="hover:text-[#6139B4]">BOOKS</a>
                 </nav>
 
                 <div class="flex gap-3 items-center">
@@ -46,7 +52,7 @@ $_SESSION['user'] ?? null;
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
-                    <a href="/books" class="hover:text-[#6139B4]">BOOKS STATUS</a>
+                    <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
                     <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
                 </nav>
 
@@ -69,39 +75,5 @@ $_SESSION['user'] ?? null;
         </div>
     </header>
 <?php endif; ?>
-
-<section class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
-    <div>
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        Bienvenue dans votre bibliothèque numérique
-      </h2>
-      <p class="text-[#F2F5F3]/70 mb-6">
-        Découvrez, empruntez et gérez vos livres facilement.
-        Une plateforme pensée pour les lecteurs et le personnel.
-      </p>
-      <div class="flex gap-4">
-        <a href="/login" class="px-6 py-3 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">
-          Commencer
-        </a>
-        <a href="#features" class="px-6 py-3 rounded-lg border border-[#17181B] hover:bg-[#17181B]">
-          En savoir plus
-        </a>
-      </div>
-    </div>
-    <div class="bg-[#141618] border border-[#17181B] rounded-2xl p-6">
-      <p class="text-sm opacity-80 mb-4">Pourquoi MyLibrary ?</p>
-      <ul class="space-y-3 text-sm">
-        <li class="flex justify-between"><span>✔ Gestion simple des livres</span></li>
-        <li class="flex justify-between"><span>✔ Accès rapide aux ressources</span></li>
-        <li class="flex justify-between"><span>✔ Espace lecteur et staff séparé</span></li>
-        <li class="flex justify-between"><span>✔ Interface moderne et claire</span></li>
-      </ul>
-    </div>
-</section>
-
-<footer class="border-t border-[#17181B] bg-[#141618] py-6 text-center text-sm">
-    © 2025 MyLibrary — Tous droits réservés
-</footer>
-
 </body>
 </html>
