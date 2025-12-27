@@ -22,6 +22,7 @@ class Book {
         foreach($rows as $row)
         {
             $books[] = new Books(
+            $row['id'],
             $row['title'],
             $row['author'],
             $row['publication_year'],

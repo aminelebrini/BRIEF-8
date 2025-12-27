@@ -2,18 +2,19 @@
     include_once __DIR__ . "/../controllers/Auth.php";
     include_once __DIR__ . "/../controllers/AdminMeth.php";
     include_once __DIR__ . "/../controllers/books.php";
+    include_once __DIR__ . "/../controllers/ReaderMetho.php";
 
 
     $User = $_SESSION['user'] ?? null;
     $Books = $_SESSION['books'] ?? [];    
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <title>Document</title>
 </head>
 <body class="bg-[#1B1B1E] text-[#F2F5F3]">
@@ -38,26 +39,75 @@
             </div>
         </header>
         <? endif; ?>
-    <div class="books grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 py-8">
+    <div class="books relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 py-8">
     <?php foreach($Books as $book): ?>
         <div class="bg-[#141618] border border-[#17181B] rounded-2xl shadow-lg p-6 transition-transform transform hover:scale-105 hover:shadow-2xl">
-            <h2 class="text-xl font-semibold text-[#F2F5F3] mb-2"><?= htmlspecialchars($book->get_title()) ?></h2>
-            <p class="text-[#F2F5F3]/70 mb-1">Auteur : <?= htmlspecialchars($book->get_author()) ?></p>
-            <p class="text-[#F2F5F3]/70 mb-1">Année : <?= htmlspecialchars($book->get_year()) ?></p>
-            <p class="text-[#F2F5F3]/70 mb-4">
-                Statut : 
-                <?php if($book->get_status() === 'available'): ?>
-                    <span class="font-semibold text-green-400">available</span>
-                <?php else: ?>
-                    <span class="font-semibold text-red-400">unavailable</span>
-                <?php endif; ?>
-            </p>
-            <a href="#"
-               class="inline-block px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91] text-white text-sm font-medium transition">
-                Emprunter
-            </a>
+            <div class="bg-[#141618] ...">
+                <h2><?= htmlspecialchars($book->get_title()) ?></h2>
+                <p>Auteur : <?= htmlspecialchars($book->get_author()) ?></p>
+                <p>Année : <?= htmlspecialchars($book->get_year()) ?></p>
+                <p>Status : <?= htmlspecialchars($book->get_status()) ?></p>
+            </div>
+            <?php if($book->get_status() === "available"): ?>
+                <button type="submit" id="emprunt" name="booknow" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91] text-white font-medium w-[200px] transition">Emprunter</button>
+            <?php else: ?>
+                <button type="button" class="px-4 py-2 rounded-lg bg-gray-500 text-white font-medium w-[200px] cursor-not-allowed" disabled>Indisponible</button>
+            <?php endif; ?>
+        </div>
+        <div class="booking hidden fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+            <div class="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-md md:max-w-lg flex flex-col gap-4">
+                <div class="cancel">
+                    <button type="button" id="cancel" class="text-white bg-red-500 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center transition shadow-md"><i class="fas fa-multiply"></i></button>
+                </div>
+                <form method="POST" class="flex flex-col gap-4 w-full">
+
+                    <label class="text-gray-700 font-medium">id du reader</label>
+                    <input type="text" name="readerid" value="<?= htmlspecialchars($_SESSION['user']['id']); ?>" class="text-black border rounded-lg p-2 w-full" readonly>
+
+                    <label class="text-gray-700 font-medium">id du livre</label>
+                    <input type="text" name="bookid" value="<?= htmlspecialchars($book->get_book_id()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
+
+                    <label class="text-gray-700 font-medium">Titre du livre</label>
+                    <input type="text" name="bookname" value="<?= htmlspecialchars($book->get_title()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
+
+                    <label class="text-gray-700 font-medium">Auteur</label>
+                    <input type="text" name="bookauthor" value="<?= htmlspecialchars($book->get_author()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
+
+                    <label class="text-gray-700 font-medium">Année</label>
+                    <input type="text" name="bookyear" value="<?= htmlspecialchars($book->get_year()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
+
+                    <label class="text-gray-700 font-medium">Statut</label>
+                    <input type="text" name="bookstatus" value="<?= htmlspecialchars($book->get_status()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
+
+                    <label class="text-gray-700 font-medium">Date de début</label>
+                    <input type="date" name="startdate" class="text-black border rounded-lg p-2 w-full" required>
+
+                    <label class="text-gray-700 font-medium">Date de fin</label>
+                    <input type="date" name="enddate" class="text-black border rounded-lg p-2 w-full" required>
+
+                    <button type="submit" name="book" class="px-6 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91] text-white font-semibold text-sm transition transform hover:scale-105 shadow-md">BOOK NOW</button>
+                </form>
+            </div>
         </div>
     <?php endforeach; ?>
 </div>
+    <script>
+        const btnemprunt = document.getElementById('emprunt');
+        const btncancel = document.getElementById('cancel');
+        const bookingdiv = document.querySelector('.booking');
+
+        if(btnemprunt)
+        {
+            btnemprunt.addEventListener('click', ()=>{
+                bookingdiv.classList.remove('hidden');
+            });
+        }
+        if(btncancel)
+        {
+            btncancel.addEventListener('click', ()=>{
+                bookingdiv.classList.add('hidden');
+            });
+        }
+    </script>
 </body>
 </html>
