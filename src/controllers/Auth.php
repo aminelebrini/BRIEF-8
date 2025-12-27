@@ -16,6 +16,9 @@ class Auth {
         {
             $_SESSION['user'] = $user;
         }
+        elseif($user['role'] === 'reader'){
+             $_SESSION['user'] = $user;
+        }
         return true;
     }
     return false;

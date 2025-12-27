@@ -19,19 +19,19 @@
         $this->role      = $role;
     }
 
-    public function get_firstname():string{
+    public function get_firstname(){
         return $this->firstname;
     }
-    public function get_lastname():string{
+    public function get_lastname(){
         return $this->lastname;
     }
-    public function get_email():string{
+    public function get_email(){
         return $this->email;
     }
-    public function get_password():string{
+    public function get_password(){
         return $this->password;
     } 
-    public function get_role(): string {
+    public function get_role(){
         return $this->role;
     }   
 }
