@@ -1,5 +1,6 @@
 <?php
     class books{
+        private $id;
         private $title;
         private $author;
         private $year;
@@ -7,14 +8,19 @@
 
         
 
-        public function __construct($title, $author, $year, $status)
+        public function __construct($id, $title, $author, $year, $status)
         {
+            $this->id = $id;
             $this->title = $title;
             $this->author = $author;
             $this->year  = $year;
             $this->status = $status;
         }
 
+        public function get_book_id()
+        {
+            return $this->id;
+        }
         public function get_title(){
             return $this->title;
         }
