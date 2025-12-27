@@ -25,6 +25,7 @@ $_SESSION['user'] ?? null;
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/books" class="hover:text-[#6139B4]">BOOKS</a>
+                    <a href="/reserved" class="hover:text-[#6139B4]">RESERVATIONS</a>
                 </nav>
 
                 <div class="flex gap-3 items-center">
