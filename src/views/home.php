@@ -24,7 +24,7 @@ $_SESSION['user'] ?? null;
                     <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
-                    <a href="/book" class="hover:text-[#6139B4]">BOOKS</a>
+                    <a href="/books" class="hover:text-[#6139B4]">BOOKS</a>
                 </nav>
 
                 <div class="flex gap-3 items-center">
@@ -46,7 +46,7 @@ $_SESSION['user'] ?? null;
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
-                    <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
+                    <a href="/books" class="hover:text-[#6139B4]">BOOKS STATUS</a>
                     <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
                 </nav>
 

@@ -1,6 +1,7 @@
 <?php
-include_once __DIR__ . "/../controllers/Auth.php";
-include_once __DIR__ . "/../controllers/AdminMeth.php";
+  include_once __DIR__ . "/../controllers/Auth.php";
+  include_once __DIR__ . "/../controllers/AdminMeth.php";
+  include_once __DIR__ . "/../controllers/books.php";
 
 $User = $_SESSION['user'] ?? null;
 ?>
@@ -23,7 +24,6 @@ $User = $_SESSION['user'] ?? null;
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
-                    <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
                     <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
                 </nav>
 
@@ -92,18 +92,20 @@ $User = $_SESSION['user'] ?? null;
 
   </form>
 </div>
+
+
 <script>
     const AddDiv = document.querySelector('.adddiv');
-const RemoveDive = document.querySelector('.removediv');
-const addBtn = document.getElementById('addbtn');
-const removeBtn = document.getElementById('rmbtn');
+    const RemoveDive = document.querySelector('.removediv');
+    const addBtn = document.getElementById('addbtn');
+    const removeBtn = document.getElementById('rmbtn');
 
 
-  if(addBtn)
-  {
-    addBtn.addEventListener('click', ()=>{
-      AddDiv.classList.remove('hidden');
-      RemoveDive.classList.add('hidden');
+    if(addBtn)
+    {
+        addBtn.addEventListener('click', ()=>{
+        AddDiv.classList.remove('hidden');
+        RemoveDive.classList.add('hidden');
     });
   }
 
