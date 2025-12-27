@@ -7,6 +7,10 @@
 
     $User = $_SESSION['user'] ?? null;
     $Books = $_SESSION['books'] ?? [];    
+
+    if (!isset($_SESSION['borrows'])) {
+        $_SESSION['borrows'] = [];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <title>Document</title>
+    <title>BOOKS</title>
 </head>
 <body class="bg-[#1B1B1E] text-[#F2F5F3]">
     <?php if($_SESSION['user']['role'] === 'reader'): ?>
@@ -28,6 +32,7 @@
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/books" class="hover:text-[#6139B4]">BOOKS</a>
+                    <a href="/reserved" class="hover:text-[#6139B4]">RESERVATIONS</a>
                 </nav>
 
                 <div class="flex gap-3 items-center">
@@ -43,18 +48,27 @@
     <?php foreach($Books as $book): ?>
         <div class="bg-[#141618] border border-[#17181B] rounded-2xl shadow-lg p-6 transition-transform transform hover:scale-105 hover:shadow-2xl">
             <div class="bg-[#141618] ...">
+                
                 <h2><?= htmlspecialchars($book->get_title()) ?></h2>
+                <p>Id : <?= htmlspecialchars($book->get_book_id()) ?></p>
                 <p>Auteur : <?= htmlspecialchars($book->get_author()) ?></p>
                 <p>Année : <?= htmlspecialchars($book->get_year()) ?></p>
                 <p>Status : <?= htmlspecialchars($book->get_status()) ?></p>
             </div>
             <?php if($book->get_status() === "available"): ?>
-                <button type="submit" id="emprunt" name="booknow" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91] text-white font-medium w-[200px] transition">Emprunter</button>
-            <?php else: ?>
+                <button type="submit" class="emprunt-btn px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91] text-white font-medium w-[200px] transition">Emprunter</button>
+            <?php elseif($book->get_status() === "unavailable"): ?>
                 <button type="button" class="px-4 py-2 rounded-lg bg-gray-500 text-white font-medium w-[200px] cursor-not-allowed" disabled>Indisponible</button>
+                <form method="POST" class="mt-2">
+                    <button type="submit" name="removebtn" value="<?= $book->get_book_id(); ?>" class="px-4 py-2 bg-red-600 text-white rounded w-full">
+                        Remove
+                    </button>
+                </form>
             <?php endif; ?>
         </div>
-        <div class="booking hidden fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <?php endforeach; ?>
+    <?php foreach($Books as $book): ?>
+    <div class="booking hidden fixed inset-0 flex items-center justify-center bg-black/50 z-50">
             <div class="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-md md:max-w-lg flex flex-col gap-4">
                 <div class="cancel">
                     <button type="button" id="cancel" class="text-white bg-red-500 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center transition shadow-md"><i class="fas fa-multiply"></i></button>
@@ -65,7 +79,7 @@
                     <input type="text" name="readerid" value="<?= htmlspecialchars($_SESSION['user']['id']); ?>" class="text-black border rounded-lg p-2 w-full" readonly>
 
                     <label class="text-gray-700 font-medium">id du livre</label>
-                    <input type="text" name="bookid" value="<?= htmlspecialchars($book->get_book_id()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
+                    <input type="text" name="bookid" value="<?= $book->get_title() ?>" class="text-black border rounded-lg p-2 w-full" readonly>
 
                     <label class="text-gray-700 font-medium">Titre du livre</label>
                     <input type="text" name="bookname" value="<?= htmlspecialchars($book->get_title()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
@@ -89,25 +103,26 @@
                 </form>
             </div>
         </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+
 </div>
     <script>
-        const btnemprunt = document.getElementById('emprunt');
-        const btncancel = document.getElementById('cancel');
-        const bookingdiv = document.querySelector('.booking');
+        const btnsEmprunt = document.querySelectorAll('.emprunt-btn');
+        const bookingDiv = document.querySelector('.booking');
 
-        if(btnemprunt)
-        {
-            btnemprunt.addEventListener('click', ()=>{
-                bookingdiv.classList.remove('hidden');
-            });
-        }
-        if(btncancel)
-        {
-            btncancel.addEventListener('click', ()=>{
-                bookingdiv.classList.add('hidden');
-            });
-        }
+        btnsEmprunt.forEach(btn => {
+        btn.addEventListener('click', () => {
+            bookingDiv.classList.remove('hidden');
+        });
+    });
+
+    const btnCancel = document.getElementById('cancel');
+    if(btnCancel) {
+        btnCancel.addEventListener('click', () => {
+            bookingDiv.classList.add('hidden');
+        });
+    }
+
     </script>
 </body>
 </html>

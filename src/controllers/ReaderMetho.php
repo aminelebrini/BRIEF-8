@@ -17,26 +17,42 @@
             $statement->execute([$bookId]);
             $book = $statement->fetch(PDO::FETCH_ASSOC);
 
-            if ($book && $book['status'] === 'available') 
-            {
-                $update = "UPDATE books SET status = 'unavailable' WHERE id = ?";
-                $stmt = $this->conn->prepare($update);
-                $stmt->execute([$bookId]);
+            if ($book['status'] !== 'available') {
+                
+            $update = "UPDATE books SET status = 'unavailable' WHERE id = ?";
+            $stmt = $this->conn->prepare($update);
+            $stmt->execute([$bookId]);
+            $_SESSION['book'] = $book;
 
-                $_SESSION['book'] = $book;
+            }else{
+
+                $insert = "INSERT INTO borrows (reader_id, book_id, borrow_date, return_date) VALUES (?, ?, ?, ?)";
+                $statement = $this->conn->prepare($insert);
+                $statement->execute([$readerId, $bookId, $start, $end]);
+                echo "Emprunt effectué avec succès !";
+
             }
-            $insert = "INSERT INTO borrows (reader_id, book_id, borrow_date, return_date) VALUES (?, ?, ?, ?)";
-
-            $statement = $this->conn->prepare($insert);
-            $statement->execute([$readerId, $bookId, $start, $end]);
         }
 
-        public function returnBorrow(int $borrowid):void{
-            $query = "DELETE FROM borrowbook WHERE id = ?";
-            $statement = $this->conn->prepare($query);
-            $statement->execute([$borrowid]);
+        public function returnBorrow($bookId)
+        {
+            echo $bookId;
+            $get = "SELECT book_id FROM borrows WHERE book_id=?";
+            $st = $this->conn->prepare($get);
+            $st->execute([$bookId]);
+            $row = $st->fetch(PDO::FETCH_ASSOC);
 
+            if ($row) {
+                $statement = $this->conn->prepare("UPDATE books SET status='available' WHERE id=?");
+                $statement->execute([$bookId]);
+            }
+
+            $del = "DELETE FROM borrows WHERE book_id=?";
+            $statement = $this->conn->prepare($del);
+            $statement->execute([$bookId]);
         }
+
+        
     }
 
     $readerMeth = new RederMeth($conn);
@@ -50,4 +66,9 @@
 
         $readerMeth->BorrowBook($readerid, $bookid, $startdate, $enddate);
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['removebtn'])) {
+        $bookId = $_POST['removebtn'];
+        $readerMeth->returnBorrow($bookId);
+}
 ?>
