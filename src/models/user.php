@@ -10,8 +10,9 @@
         public string $email;
         public string $password;
         public string $role = "reader";
+        public string $url;
 
-    public function __construct($id , $firstname = "", $lastname = "", $email = "", $password = "", $role = "reader")
+    public function __construct($id , $firstname = "", $lastname = "", $email = "", $password = "", $role = "reader", $url)
     {
         $this->id = $id;
         $this->firstname = $firstname;
@@ -19,6 +20,7 @@
         $this->email     = $email;
         $this->password  = $password;
         $this->role      = $role;
+        $this->url = $url;
     }
 
     public function get_id()
@@ -40,6 +42,10 @@
     public function get_role(){
         return $this->role;
     }   
+    public function get_avatar_url()
+    {
+        return $this->url;
+    }
 }
 
 

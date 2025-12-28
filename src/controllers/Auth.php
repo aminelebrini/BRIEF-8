@@ -24,13 +24,13 @@ class Auth {
     return false;
 }
 
-    public static function signup($conn , string $firstname, string $lastname, string $email, string $password): bool {
+    public static function signup($conn , string $firstname, string $lastname, string $email, $url, string $password): bool {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $query = "INSERT INTO users (firstname, lastname, email, password, role)
-                  VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO users (firstname, lastname, email, password, role, avatar_url)
+              VALUES (?, ?, ?, ?, ?, ?)";
         $statement = $conn->prepare($query);
-        return $statement->execute([$firstname, $lastname, $email, $hashedPassword, 'reader']);
-    }
+    return $statement->execute([$firstname, $lastname, $email, $hashedPassword, 'reader', $url]);
+}
 
     public static function logout(): void {
         session_destroy();
@@ -54,12 +54,13 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup']))
 {
+    $url = $_POST['image_url'];
     $firstname = $_POST['firstname'] ?? '';
     $lastname  = $_POST['lastname'] ?? '';
     $email     = $_POST['email'] ?? '';
     $password  = $_POST['password'] ?? '';
 
-    if(Auth::signup($conn, $firstname, $lastname, $email, $password))
+    if(Auth::signup($conn, $firstname, $lastname, $email,$url, $password))
     {
         header("Location: /formulaire");
         exit();
