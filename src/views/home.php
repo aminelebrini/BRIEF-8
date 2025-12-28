@@ -47,7 +47,7 @@ $_SESSION['user'] ?? null;
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
-                    <a href="/books" class="hover:text-[#6139B4]">BOOKS STATUS</a>
+                    <a href="/reserveadmin" class="hover:text-[#6139B4]">RESERVATIONS</a>
                     <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
                 </nav>
 
