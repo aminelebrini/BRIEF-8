@@ -1,8 +1,5 @@
 <?php
-      include_once __DIR__ . "/../controllers/logincontrollers.php";
-    include_once __DIR__ . "/../controllers/signupcontroller.php";
-       include __DIR__ . "/../controllers/logout.php";
-
+    include_once __DIR__ . "/../controllers/Auth.php";
     
     if(!isset($_SESSION['user']))
     {
@@ -76,5 +73,48 @@
         </div>
     </header>
 <?php endif; ?>
+
+<main class="max-w-5xl mx-auto p-6 mt-10">
+    <div class="bg-[#141618] border border-[#17181B] rounded-3xl p-8 shadow-xl flex flex-col gap-6">
+        
+        <div class="flex items-center gap-6">
+            <div class="w-20 h-20 rounded-full bg-[#26282C] flex items-center justify-center text-white text-2xl font-bold">
+                <?= strtoupper(substr($_SESSION['user']['firstname'],0,1)) ?>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <h2 class="text-3xl font-bold text-[#9F8BFF]">
+                    <?= htmlspecialchars($_SESSION['user']['firstname'] . ' ' . $_SESSION['user']['lastname']) ?>
+                </h2>
+                <span class="text-gray-400 uppercase text-sm tracking-wide">
+                    <?= htmlspecialchars($_SESSION['user']['role']) ?>
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 text-gray-300">
+            <div class="bg-[#1F1F22] rounded-xl p-4 flex flex-col gap-1 hover:bg-[#26282C] transition">
+                <span class="text-white font-medium">Email</span>
+                <span><?= htmlspecialchars($_SESSION['user']['email']) ?></span>
+            </div>
+
+            <div class="bg-[#1F1F22] rounded-xl p-4 flex flex-col gap-1 hover:bg-[#26282C] transition">
+                <span class="text-white font-medium">Role</span>
+                <span><?= htmlspecialchars($_SESSION['user']['role']) ?></span>
+            </div>
+        </div>
+
+        <div class="mt-6 flex gap-4">
+            <a href="/books" class="px-6 py-2 rounded-xl bg-[#7C5CFF] hover:bg-[#6139B4] text-white font-semibold transition">
+                Voir Livres
+            </a>
+            <a href="/reserved" class="px-6 py-2 rounded-xl border border-[#7C5CFF] hover:bg-[#7C5CFF] hover:text-white text-[#7C5CFF] font-semibold transition">
+                Mes Réservations
+            </a>
+        </div>
+
+    </div>
+</main>
+
 </body>
 </html>
