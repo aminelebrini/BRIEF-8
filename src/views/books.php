@@ -4,110 +4,141 @@
     include_once __DIR__ . "/../controllers/books.php";
     include_once __DIR__ . "/../controllers/ReaderMetho.php";
 
-
     $User = $_SESSION['user'] ?? null;
     $Books = $_SESSION['books'] ?? [];    
+
+    if (!isset($_SESSION['borrows'])) {
+        $_SESSION['borrows'] = [];
+    }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Catalogue — MyLibrary</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(20, 22, 24, 0.7); backdrop-filter: blur(12px); }
+        .gradient-text { background: linear-gradient(135deg, #a78bfa, #6139B4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .book-card { background: #141618; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+        .book-card:hover { border-color: #6139B4; transform: translateY(-5px); }
+        /* Style des inputs date pour coller au thème sombre */
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+    </style>
 </head>
-<body class="bg-[#1B1B1E] text-[#F2F5F3]">
-    <?php if($_SESSION['user']['role'] === 'reader'): ?>
-        <header class="w-full bg-[#141618] border-b border-[#17181B]">
-            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
+<body class="bg-[#0f1113] text-[#F2F5F3] min-h-screen">
 
-                <nav class="flex gap-4 text-sm">
-                    <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
-                    <a href="/service" class="hover:text-[#6139B4]">Services</a>
-                    <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
-                    <a href="/books" class="hover:text-[#6139B4]">BOOKS</a>
+    <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'reader'): ?>
+        <header class="sticky top-0 z-50 glass border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-bold tracking-tight italic">My<span class="gradient-text">Library</span></h1>
+
+                <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
+                    <a href="/home" class="hover:text-white transition">Accueil</a>
+                    <a href="/service" class="hover:text-white transition">Services</a>
+                    <a href="/profile" class="hover:text-white transition">Profil</a>
+                    <a href="/books" class="text-[#a78bfa] border-b-2 border-[#6139B4] pb-1">Books</a>
+                    <a href="/reserved" class="hover:text-white transition">Réservations</a>
                 </nav>
 
-                <div class="flex gap-3 items-center">
-                    <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
+                <div class="flex gap-4 items-center pl-6 border-l border-white/10">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-xs text-gray-400">Bienvenue,</p>
+                        <p class="text-sm font-semibold"><?= $_SESSION['user']['firstname']; ?></p>
+                    </div>
+                    <img src="<?= $_SESSION['user']['avatar_url'] ?>" class="w-10 h-10 rounded-full border-2 border-[#6139B4] object-cover" alt="user">
                     <form method="POST">
-                        <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                        <button type="submit" name="logout" class="text-gray-400 hover:text-red-500 transition">
+                            <i class="fa-solid fa-power-off text-lg"></i>
+                        </button>
                     </form>
                 </div>
             </div>
         </header>
-        <? endif; ?>
-    <div class="books relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 py-8">
-    <?php foreach($Books as $book): ?>
-        <div class="bg-[#141618] border border-[#17181B] rounded-2xl shadow-lg p-6 transition-transform transform hover:scale-105 hover:shadow-2xl">
-            <div class="bg-[#141618] ...">
-                <h2><?= htmlspecialchars($book->get_title()) ?></h2>
-                <p>Auteur : <?= htmlspecialchars($book->get_author()) ?></p>
-                <p>Année : <?= htmlspecialchars($book->get_year()) ?></p>
-                <p>Status : <?= htmlspecialchars($book->get_status()) ?></p>
-            </div>
-            <?php if($book->get_status() === "available"): ?>
-                <button type="submit" id="emprunt" name="booknow" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91] text-white font-medium w-[200px] transition">Emprunter</button>
-            <?php else: ?>
-                <button type="button" class="px-4 py-2 rounded-lg bg-gray-500 text-white font-medium w-[200px] cursor-not-allowed" disabled>Indisponible</button>
-            <?php endif; ?>
+    <?php endif; ?>
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="mb-12">
+            <h2 class="text-4xl font-bold tracking-tight italic">Explorez notre <span class="gradient-text">Collection</span></h2>
+            <p class="text-gray-400 mt-2 italic text-sm underline decoration-[#6139B4]">Trouvez votre prochaine aventure littéraire.</p>
         </div>
-        <div class="booking hidden fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div class="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-md md:max-w-lg flex flex-col gap-4">
-                <div class="cancel">
-                    <button type="button" id="cancel" class="text-white bg-red-500 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center transition shadow-md"><i class="fas fa-multiply"></i></button>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <?php foreach($Books as $book): ?>
+            <div class="book-card rounded-3xl p-6 shadow-xl flex flex-col justify-between group">
+                
+                <div class="relative mb-4">
+                    <div class="flex justify-between items-start">
+                        <div class="w-12 h-12 rounded-2xl bg-[#6139B4]/10 flex items-center justify-center text-[#a78bfa] mb-4">
+                            <i class="fa-solid fa-book text-xl"></i>
+                        </div>
+                        <span class="text-[10px] font-mono text-gray-600 bg-black/30 px-2 py-1 rounded">#<?= htmlspecialchars($book->get_book_id()) ?></span>
+                    </div>
+                    
+                    <h2 class="text-xl font-bold text-white group-hover:text-[#a78bfa] transition leading-tight h-14 overflow-hidden">
+                        <?= htmlspecialchars($book->get_title()) ?>
+                    </h2>
+                    
+                    <div class="space-y-2 mt-4">
+                        <p class="text-xs text-gray-400 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-nib w-4"></i> <?= htmlspecialchars($book->get_author()) ?>
+                        </p>
+                        <p class="text-xs text-gray-400 flex items-center gap-2">
+                            <i class="fa-solid fa-calendar w-4"></i> <?= htmlspecialchars($book->get_year()) ?>
+                        </p>
+                        <p class="text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info w-4"></i> 
+                            Status : <span class="<?= $book->get_status()==='available' ? 'text-emerald-400 font-bold' : 'text-red-400' ?>">
+                                <?= ucfirst(htmlspecialchars($book->get_status())) ?>
+                            </span>
+                        </p>
+                    </div>
                 </div>
-                <form method="POST" class="flex flex-col gap-4 w-full">
 
-                    <label class="text-gray-700 font-medium">id du reader</label>
-                    <input type="text" name="readerid" value="<?= htmlspecialchars($_SESSION['user']['id']); ?>" class="text-black border rounded-lg p-2 w-full" readonly>
-
-                    <label class="text-gray-700 font-medium">id du livre</label>
-                    <input type="text" name="bookid" value="<?= htmlspecialchars($book->get_book_id()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
-
-                    <label class="text-gray-700 font-medium">Titre du livre</label>
-                    <input type="text" name="bookname" value="<?= htmlspecialchars($book->get_title()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
-
-                    <label class="text-gray-700 font-medium">Auteur</label>
-                    <input type="text" name="bookauthor" value="<?= htmlspecialchars($book->get_author()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
-
-                    <label class="text-gray-700 font-medium">Année</label>
-                    <input type="text" name="bookyear" value="<?= htmlspecialchars($book->get_year()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
-
-                    <label class="text-gray-700 font-medium">Statut</label>
-                    <input type="text" name="bookstatus" value="<?= htmlspecialchars($book->get_status()) ?>" class="text-black border rounded-lg p-2 w-full" readonly>
-
-                    <label class="text-gray-700 font-medium">Date de début</label>
-                    <input type="date" name="startdate" class="text-black border rounded-lg p-2 w-full" required>
-
-                    <label class="text-gray-700 font-medium">Date de fin</label>
-                    <input type="date" name="enddate" class="text-black border rounded-lg p-2 w-full" required>
-
-                    <button type="submit" name="book" class="px-6 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91] text-white font-semibold text-sm transition transform hover:scale-105 shadow-md">BOOK NOW</button>
-                </form>
+                <div class="mt-6">
+                    <?php if($book->get_status() === "available"): ?>
+                        <form method="POST" class="space-y-4">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-[10px] font-bold uppercase text-gray-500 italic px-1">Début</label>
+                                    <input type="date" name="startdate" class="w-full bg-white/5 border border-white/10 rounded-xl p-2 text-xs text-white focus:border-[#6139B4] outline-none" required>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-[10px] font-bold uppercase text-gray-500 italic px-1">Fin</label>
+                                    <input type="date" name="enddate" class="w-full bg-white/5 border border-white/10 rounded-xl p-2 text-xs text-white focus:border-[#6139B4] outline-none" required>
+                                </div>
+                            </div>
+                            <button type="submit" name="book" value="<?= $book->get_book_id(); ?>"
+                                class="w-full py-3 rounded-xl bg-[#6139B4] hover:bg-[#4f2d91] text-white font-bold text-sm transition shadow-lg shadow-[#6139B4]/20 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bookmark"></i> Emprunter
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <div class="space-y-2">
+                            <button type="button" class="w-full py-3 rounded-xl bg-gray-800 text-gray-500 font-bold text-sm cursor-not-allowed flex items-center justify-center gap-2" disabled>
+                                <i class="fa-solid fa-ban"></i> Indisponible
+                            </button>
+                            <form method="POST">
+                                <button type="submit" name="removebtn" value="<?= $book->get_book_id(); ?>"
+                                    class="w-full py-2 text-xs text-red-400 hover:text-red-300 transition italic">
+                                    <i class="fa-solid fa-trash-can mr-1"></i> Retirer du catalogue
+                                </button>
+                            </form>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
+            <?php endforeach; ?>
         </div>
-    <?php endforeach; ?>
-</div>
-    <script>
-        const btnemprunt = document.getElementById('emprunt');
-        const btncancel = document.getElementById('cancel');
-        const bookingdiv = document.querySelector('.booking');
+    </main>
 
-        if(btnemprunt)
-        {
-            btnemprunt.addEventListener('click', ()=>{
-                bookingdiv.classList.remove('hidden');
-            });
-        }
-        if(btncancel)
-        {
-            btncancel.addEventListener('click', ()=>{
-                bookingdiv.classList.add('hidden');
-            });
-        }
-    </script>
+    <footer class="mt-20 border-t border-white/5 py-10 text-center text-gray-600">
+        <p class="text-[10px] uppercase tracking-[0.5em]">MyLibrary Digital Collection — 2025</p>
+    </footer>
+
 </body>
 </html>
