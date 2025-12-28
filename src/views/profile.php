@@ -109,7 +109,7 @@
                             <i class="fa-solid fa-id-badge"></i>
                         </div>
                         <div>
-                            <span class="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">Niveau d'Accès</span>
+                            <span class="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">Status</span>
                             <span class="text-gray-200 font-medium"><?= ucfirst(htmlspecialchars($_SESSION['user']['role'])) ?></span>
                         </div>
                     </div>
