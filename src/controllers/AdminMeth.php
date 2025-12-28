@@ -22,6 +22,14 @@
             $statement->execute([$bookId]);
         }
 
+        public function updateBook($book_id, $title, $author, $year)
+        {
+            $query = "UPDATE books SET title = ?, author = ?, publication_year = ? WHERE id = ?";
+
+            $statement = $this->conn->prepare($query);            
+            $statement->execute([$title, $author, $year, $book_id]);
+        }
+
         function display_all_reservation()
         {
             $query = "SELECT users.firstname,
@@ -38,6 +46,16 @@
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function allusers()
+        {
+            $query = "SELECT * FROM users WHERE role = 'reader'";
+            $statement = $this->conn->prepare($query);
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
     }
 
     $adminbook = new AdminMeth($conn);
@@ -60,5 +78,19 @@
         $bookId = $_POST['book_id'];
         $adminbook->removebook($bookId);
     }
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update']))
+    {
+        $book_id = $_POST['book_id'];
+        $newTitle = $_POST['title'];
+        $newAuthor = $_POST['author'];
+        $newYear = $_POST['year'];
+
+        $adminbook->updateBook($book_id,$newTitle,$newAuthor,$newYear);
+    }
+
+    $adminbook->allusers();
+
+
 
 ?>
