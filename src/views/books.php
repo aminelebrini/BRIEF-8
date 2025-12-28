@@ -26,11 +26,10 @@
         .gradient-text { background: linear-gradient(135deg, #a78bfa, #6139B4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .book-card { background: #141618; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
         .book-card:hover { border-color: #6139B4; transform: translateY(-5px); }
-        /* Style des inputs date pour coller au thème sombre */
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
     </style>
 </head>
-<body class="bg-[#0f1113] text-[#F2F5F3] min-h-screen">
+<body class="bg-[#0f1113] text-[#F2F5F3] selection:bg-[#6139B4] flex flex-col min-h-screen">
 
     <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'reader'): ?>
         <header class="sticky top-0 z-50 glass border-b border-white/5">
@@ -136,9 +135,12 @@
         </div>
     </main>
 
-    <footer class="mt-20 border-t border-white/5 py-10 text-center text-gray-600">
-        <p class="text-[10px] uppercase tracking-[0.5em]">MyLibrary Digital Collection — 2025</p>
-    </footer>
-
+    <footer class="border-t border-white/5 bg-[#0f1113] py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center gap-4">
+        <p class="text-gray-500 text-sm italic text-center">
+            © 2025 <span class="text-white font-semibold">MyLibrary</span> — Le futur de la lecture commence ici.
+        </p>
+    </div>
+</footer>
 </body>
 </html>

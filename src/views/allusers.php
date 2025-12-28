@@ -23,8 +23,7 @@ $Readers = $adminbook->allusers();
   </style>
 </head>
 
-<body class="bg-[#0f1113] text-[#F2F5F3] min-h-screen">
-
+<body class="bg-[#0f1113] text-[#F2F5F3] min-h-screen flex flex-col">
 <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
     <header class="sticky top-0 z-50 glass border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -55,7 +54,7 @@ $Readers = $adminbook->allusers();
     </header>        
 <?php endif; ?>
 
-<main class="max-w-7xl mx-auto px-6 py-12">
+<main class="max-w-7xl mx-auto px-6 py-12 flex-grow">
     <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
             <h2 class="text-4xl font-extrabold tracking-tight italic">Nos <span class="gradient-text">Membres</span></h2>
@@ -107,9 +106,12 @@ $Readers = $adminbook->allusers();
     </div>
 </main>
 
-<footer class="mt-20 border-t border-white/5 py-10 text-center opacity-40">
-    <p class="text-[10px] uppercase tracking-[0.6em]">Administration Directory — MyLibrary 2025</p>
+<footer class="border-t border-white/5 bg-[#0f1113] py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center gap-4">
+        <p class="text-gray-500 text-sm italic text-center">
+            © 2025 <span class="text-white font-semibold">MyLibrary</span> — Le futur de la lecture commence ici.
+        </p>
+    </div>
 </footer>
-
 </body>
 </html>

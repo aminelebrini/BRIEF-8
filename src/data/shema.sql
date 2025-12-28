@@ -17,3 +17,14 @@ CREATE TABLE IF NOT EXISTS books (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+CREATE TABLE IF NOT EXISTS borrows (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  reader_id INT NOT NULL,   
+  book_id INT NOT NULL,    
+  borrow_date DATETIME NOT NULL,
+  return_date DATETIME,
+  FOREIGN KEY (reader_id) REFERENCES users(id),
+  FOREIGN KEY (book_id) REFERENCES books(id)
+);
+

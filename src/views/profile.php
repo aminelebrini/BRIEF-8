@@ -24,7 +24,7 @@
         .profile-card { background: linear-gradient(145deg, #141618, #1c1f22); }
     </style>
 </head>
-<body class="bg-[#0f1113] text-[#F2F5F3] min-h-screen">
+<body class="bg-[#0f1113] text-[#F2F5F3] min-h-screen flex flex-col">
 
     <header class="sticky top-0 z-50 glass border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -66,7 +66,7 @@
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-6 py-20">
+    <main class="max-w-4xl mx-auto px-6 py-20 flex-grow">
         <div class="profile-card border border-white/5 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
             
             <div class="absolute top-0 right-0 w-32 h-32 bg-[#6139B4]/10 blur-[80px] rounded-full"></div>
@@ -119,9 +119,12 @@
         </div>
     </main>
 
-    <footer class="py-10 text-center text-gray-600 text-[10px] uppercase tracking-[0.3em]">
-        MyLibrary Digital Identity Section — 2025
+    <footer class="border-t border-white/5 bg-[#0f1113] py-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center gap-4">
+            <p class="text-gray-500 text-sm italic text-center">
+                © 2025 <span class="text-white font-semibold">MyLibrary</span> — Le futur de la lecture commence ici.
+            </p>
+        </div>
     </footer>
-
 </body>
 </html>
