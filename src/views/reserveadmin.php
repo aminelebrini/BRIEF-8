@@ -107,10 +107,5 @@
             <?php endforeach; ?>
         </div>
     </main>
-
-    <footer class="mt-20 border-t border-white/5 py-10 text-center opacity-50">
-        <p class="text-xs uppercase tracking-[0.5em]">Administration MyLibrary — 2025</p>
-    </footer>
-
 </body>
 </html>
