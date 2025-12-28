@@ -30,9 +30,10 @@
             <nav class="hidden md:flex items-center gap-8 text-sm uppercase font-bold text-gray-400">
                 <a href="/home" class="text-[#a78bfa] font-bold border-b-2 border-[#6139B4] pb-1 transition-colors">Accueil</a>
                 <a href="/service" class="hover:text-white font-bold uppercase transition-colors">Services</a>
+                <a href="/allbooks" class="hover:text-white transition">ALL BOOKS</a>
                 <a href="/profile" class="hover:text-white font-bold uppercase transition-colors">Profil</a>
                 <?php if($user['role'] === 'reader'): ?>
-                    <a href="/book" class="hover:text-white transition-colors font-bold uppercase tracking-wider text-xs">LIVRES</a>
+                    <a href="/books" class="hover:text-white transition-colors font-bold uppercase tracking-wider text-xs">LIVRES</a>
                     <a href="/reserved" class="hover:text-white transition-colors font-bold uppercase tracking-wider text-xs">Réservations</a>
                 <?php elseif($user['role'] === 'admin'): ?>
                     <a href="/dashboard" class="hover:text-white font-bold transition-colors">Dashboard</a>
@@ -63,6 +64,9 @@
             <nav class="hidden md:flex flex-1 justify-center items-center gap-10 text-sm font-semibold tracking-wide uppercase">
                 <a href="/home" class="text-white hover:text-[#a78bfa] transition-colors">Accueil</a>
                 <a href="/service" class="text-gray-400 hover:text-white transition-colors">Services</a>
+                <a href="/allbooks" class="hover:text-white transition-colors uppercase">
+                All Books
+                </a>            
             </nav>
             <div class="flex-1 flex justify-end">
                 <a href="/formulaire" class="px-7 py-3 rounded-full bg-white text-black text-xs font-black uppercase tracking-tighter hover:bg-[#a78bfa] hover:text-white transition-all shadow-xl shadow-white/5 active:scale-95">

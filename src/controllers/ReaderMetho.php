@@ -19,7 +19,7 @@
 
             if ($book['status'] === 'available') {
                 
-            $update = "UPDATE books SET status = 'unavailable' WHERE id = ?";
+            $update = "UPDATE books SET status = 'borrowed' WHERE id = ?";
             $stmt = $this->conn->prepare($update);
             $stmt->execute([$bookId]);
             $_SESSION['book'] = $book;

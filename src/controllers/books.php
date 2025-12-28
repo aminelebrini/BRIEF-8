@@ -29,7 +29,6 @@ class Book {
             $row['status']);
         }
         $_SESSION['books'] = $books;
-
     }
 
 

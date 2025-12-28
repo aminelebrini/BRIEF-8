@@ -67,6 +67,7 @@ $bookModel = new Book($conn);
                 <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
                     <a href="/home" class="hover:text-white transition">Accueil</a>
                     <a href="/service" class="hover:text-white transition">Services</a>
+                    <a href="/allbooks" class="hover:text-white transition">ALL BOOKS</a>
                     <a href="/profile" class="hover:text-white transition">Profil</a>
                     <a href="/books" class="text-[#a78bfa] border-b-2 border-[#6139B4] pb-1">Books</a>
                     <a href="/reserved" class="hover:text-white transition">Réservations</a>
