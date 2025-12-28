@@ -3,7 +3,7 @@
   include_once __DIR__ . "/../controllers/AdminMeth.php";
   include_once __DIR__ . "/../controllers/books.php";
 
-$User = $_SESSION['user'] ?? null;
+$_SESSION['user'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,30 @@ $User = $_SESSION['user'] ?? null;
     <title>Dashboard</title>
 </head>
 <body  class="bg-[#1B1B1E] text-[#F2F5F3]">
-    <?php if($User && $User['role'] === 'admin'): ?>
+<?php if(isset($_SESSION['user'])): ?>
+    <?php if($_SESSION['user']['role'] === 'reader'): ?>
+        <header class="w-full bg-[#141618] border-b border-[#17181B]">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
+
+                <nav class="flex gap-4 text-sm">
+                    <a href="/home" class="hover:text-[#6139B4]">Accueil</a>
+                    <a href="/service" class="hover:text-[#6139B4]">Services</a>
+                    <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
+                    <a href="/book" class="hover:text-[#6139B4]">BOOKS</a>
+                    <a href="/reserved" class="hover:text-[#6139B4]">RESERVATIONS</a>
+                </nav>
+
+                <div class="flex gap-3 items-center">
+                    <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
+                    <form method="POST">
+                        <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+    <?php elseif($_SESSION['user']['role'] === 'admin'): ?>
         <header class="w-full bg-[#141618] border-b border-[#17181B]">
             <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
                 <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
@@ -24,19 +47,29 @@ $User = $_SESSION['user'] ?? null;
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
+                    <a href="/reserveadmin" class="hover:text-[#6139B4]">RESERVATIONS</a>
                     <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
                 </nav>
 
                 <div class="flex gap-3 items-center">
-                    <span class="text-sm text-white"><?= htmlspecialchars($User['firstname']); ?></span>
+                    <span class="text-sm text-white"><?= $_SESSION['user']['firstname']; ?></span>
                     <form method="POST">
                         <button type="submit" name="logout" class="px-4 py-2 rounded-lg bg-[#6139B4] hover:bg-[#4f2d91]">Logout</button>
                     </form>
                 </div>
             </div>
-        </header>
-    <? else:?>
+        </header>        
     <?php endif; ?>
+<?php else: ?>
+    <header class="w-full bg-[#141618] border-b border-[#17181B]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-semibold">📚 MyLibrary</h1>
+            <nav class="flex gap-4 text-sm">
+                <a href="/formulaire" class="hover:text-[#6139B4]">Connexion</a>
+            </nav>
+        </div>
+    </header>
+<?php endif; ?>
     <div class="flex flex-row w-full items-center justify-evenly">
         <div class="flex justify-center gap-4 mt-6">
             <button type="button" name="addbook" id="addbtn" class="px-6 py-3 rounded-xl bg-[#6139B4] text-white font-semibold hover:bg-[#4e2f95] transition shadow-md">ADD BOOK</button>
@@ -79,7 +112,7 @@ $User = $_SESSION['user'] ?? null;
     <input 
       type="text" 
       name="book_id" 
-      placeholder="Book TITLE"
+      placeholder="Book id"
       class="w-full p-3 rounded-xl bg-[#1B1B1E] border border-[#2a2c31] focus:outline-none focus:border-[#6139B4]"
       required>
 

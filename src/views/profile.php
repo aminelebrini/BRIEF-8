@@ -50,7 +50,7 @@
                     <a href="/service" class="hover:text-[#6139B4]">Services</a>
                     <a href="/profile" class="hover:text-[#6139B4]">Profile</a>
                     <a href="/dashboard" class="hover:text-[#6139B4]">Dashboard</a>
-                    <a href="/service" class="hover:text-[#6139B4]">Admin Panel</a>
+                    <a href="/reserveadmin" class="hover:text-[#6139B4]">RESERVATIONS</a>
                     <a href="/users" class="hover:text-[#6139B4]">Gestion Users</a>
                 </nav>
 
@@ -73,7 +73,6 @@
         </div>
     </header>
 <?php endif; ?>
-
 <main class="max-w-5xl mx-auto p-6 mt-10">
     <div class="bg-[#141618] border border-[#17181B] rounded-3xl p-8 shadow-xl flex flex-col gap-6">
         
