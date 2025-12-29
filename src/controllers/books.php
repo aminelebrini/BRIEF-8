@@ -33,15 +33,18 @@ class Book {
     }
 
 
-    public function isAvailable()
+    public function isAvailable($user_id)
     {
-        $query = "SELECT * FROM books WHERE status = ? ";
+        $query = "SELECT * FROM borrows WHERE reader_id = ?";
         $statement = $this->conn->prepare($query);
-        $statement->execute();
-
+        $statement->execute([$user_id]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }
+
+
+
 
 $bookModel = new Book($conn);
 
